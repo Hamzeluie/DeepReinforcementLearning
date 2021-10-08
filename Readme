@@ -3,5 +3,5 @@ we use actor critic family models when states or actions are continuous.
 
 actor critic has 3 models:
 1-Q Actor-Critic:
-2-Advantage Actor_Critic:
-3-TD Actor_Critic:
+2-Advantage ActorCritic:
+3-TD ActorCritic:

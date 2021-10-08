@@ -40,9 +40,9 @@ class Critic(nn.Module):
         return out
 
 
-class Critic_conc(nn.Module):
+class CriticConc(nn.Module):
     def __init__(self, state_dim, action_dim, hidden_dim=32):
-        super(Critic_conc, self).__init__()
+        super(CriticConc, self).__init__()
         self.state_dim = state_dim
         self.action_dim = action_dim
         self.hidden_dim = hidden_dim
@@ -65,9 +65,9 @@ class Critic_conc(nn.Module):
         return d3
 
 
-class Actor_Critic(nn.Module):
+class ActorCritic(nn.Module):
     def __init__(self, state_dim, action_dim, hidden_dim=128):
-        super(Actor_Critic, self).__init__()
+        super(ActorCritic, self).__init__()
         self.action_dim = action_dim
         self.state_dim = state_dim
         self.hidden_dim = hidden_dim
@@ -95,9 +95,9 @@ class Actor_Critic(nn.Module):
         return critic, actor
 
 
-class Conv_Actor_Critic(nn.Module):
+class ConvActorCritic(nn.Module):
     def __init__(self, action_dim, state_dim, hidden_dim=128):
-        super(Conv_Actor_Critic, self).__init__()
+        super(ConvActorCritic, self).__init__()
         self.action_dim = action_dim
         self.state_dim = state_dim
         self.hidden_dim = hidden_dim

@@ -1,5 +1,6 @@
 import keras
 from tensorflow.keras import layers
+from tensorflow.python.framework.ops import EagerTensor
 
 
 class Actor(keras.Model):
@@ -18,22 +19,6 @@ class Actor(keras.Model):
         return x
 
 
-class Critic_conc(keras.Model):
-    def __init__(self, hidden_dim=32):
-        super(Critic_conc, self).__init__()
-        self.hidden_dim = hidden_dim
-        self.dense1 = layers.Dense(32, activation="relu")
-        self.dense2 = layers.Dense(self.hidden_dim, activation="relu")
-        self.dense3 = layers.Dense(1)
-
-    def call(self, state, action):
-        x1 = self.dense1(state)
-        x2 = self.dense2(action)
-        concat = layers.Concatenate()([x1, x2])
-        x = self.dense3(concat)
-        return x
-
-
 class Critic(keras.Model):
     def __init__(self, hidden_dim=32):
         super(Critic, self).__init__()
@@ -42,15 +27,36 @@ class Critic(keras.Model):
         self.dense2 = layers.Dense(self.hidden_dim, activation="relu")
         self.dense3 = layers.Dense(1)
 
-    def call(self, x):
-        x = self.dense1(x)
+    def call(self, state, action=None):
+        if isinstance(action, EagerTensor):
+            x1 = self.dense1(state)
+            x2 = self.dense2(action)
+            concat = layers.Concatenate()([x1, x2])
+            x = self.dense3(concat)
+            return x
+        x = self.dense1(state)
         x = self.dense2(x)
         x = self.dense3(x)
         return x
 
-class Actor_Critic(keras.Model):
+
+# class Critic(keras.Model):
+#     def __init__(self, hidden_dim=32):
+#         super(Critic, self).__init__()
+#         self.hidden_dim = hidden_dim
+#         self.dense1 = layers.Dense(32, activation="relu")
+#         self.dense2 = layers.Dense(self.hidden_dim, activation="relu")
+#         self.dense3 = layers.Dense(1)
+#
+#     def call(self, state):
+#         x = self.dense1(x)
+#         x = self.dense2(x)
+#         x = self.dense3(x)
+#         return x
+
+class ActorCritic(keras.Model):
     def __init__(self, action_dim, hidden_dim=128):
-        super(Actor_Critic, self).__init__()
+        super(ActorCritic, self).__init__()
         self.action_dim = action_dim
         self.hidden_dim = hidden_dim
 
@@ -73,9 +79,9 @@ class Actor_Critic(keras.Model):
         return critic, actor
 
 
-class Conv_Actor_Critic(keras.Model):
+class ConvActorCritic(keras.Model):
     def __init__(self, action_dim, state_dim, hidden_dim=128):
-        super(Conv_Actor_Critic, self).__init__()
+        super(ConvActorCritic, self).__init__()
         self.action_dim = action_dim
         self.state_dim = state_dim
         self.hidden_dim = hidden_dim

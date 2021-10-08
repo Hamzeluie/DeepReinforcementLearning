@@ -1,6 +1,6 @@
 import numpy as np
 import tensorflow as tf
-from networks.keras_nets import Actor_Critic, Actor, Critic
+from networks.keras_nets import ActorCritic, Actor, Critic
 from utils.abstracts import AbsModel
 from utils.utils import Buffer, keras_save_weights, keras_load_weights
 from settings import *
@@ -11,7 +11,7 @@ class A2C_one_net(AbsModel):
         self.state_dim = state_dim
         self.action_dim = action_dim
         self.use_conv = use_conv
-        self.model = Actor_Critic(self.action_dim)
+        self.model = ActorCritic(self.action_dim)
         self.random_generator = np.random.RandomState(SEED)
         self.optimizer = tf.keras.optimizers.Adam(LEARNING_RATE)
         self.buffer = Buffer(max_size=BUFFER_SIZE)

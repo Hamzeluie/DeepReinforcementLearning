@@ -1,6 +1,6 @@
 import numpy as np
 import tensorflow as tf
-from networks.keras_nets import Actor_Critic, Actor, Critic_conc
+from networks.keras_nets import ActorCritic, Actor, Critic
 from utils.abstracts import AbsModel
 from utils.utils import Buffer, keras_save_weights, keras_load_weights
 from settings import *
@@ -12,10 +12,10 @@ class DeepDeterministicPolicyGradient(AbsModel):
         self.action_dim = action_dim
         self.use_conv = use_conv
         self.model_actor = Actor(self.action_dim)
-        self.model_critic = Critic_conc()
+        self.model_critic = Critic()
 
         self.model_t_actor = Actor(self.action_dim)
-        self.model_t_critic = Critic_conc()
+        self.model_t_critic = Critic()
 
         self.opt_actor = tf.keras.optimizers.Adam(LEARNING_RATE)
         self.opt_critic = tf.keras.optimizers.Adam(LEARNING_RATE)

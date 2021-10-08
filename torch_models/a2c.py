@@ -1,7 +1,7 @@
 import torch
 import torch.nn.functional as F
 import numpy as np
-from networks.torch_nets import Actor, Critic, Actor_Critic
+from networks.torch_nets import Actor, Critic, ActorCritic
 from utils.abstracts import AbsModel
 from utils.utils import Buffer, torch_save_weights, torch_load_weights
 from settings import *
@@ -12,7 +12,7 @@ class A2C_one_net(AbsModel):
         self.state_dim = state_dim
         self.action_dim = action_dim
         self.use_conv = use_conv
-        self.model = Actor_Critic(self.state_dim[0], self.action_dim)
+        self.model = ActorCritic(self.state_dim[0], self.action_dim)
         self.random_generator = np.random.RandomState(SEED)
         self.optimizer = torch.optim.Adam(self.model.parameters(), LEARNING_RATE)
         self.buffer = Buffer(max_size=BUFFER_SIZE)

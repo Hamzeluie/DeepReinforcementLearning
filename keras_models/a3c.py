@@ -5,7 +5,7 @@ import tensorflow as tf
 import threading
 from queue import Queue
 import multiprocessing
-from networks.keras_nets import Actor_Critic
+from networks.keras_nets import ActorCritic
 from utils.utils import Buffer, keras_save_weights, keras_load_weights, Training
 from settings import *
 
@@ -17,7 +17,7 @@ class MasterAgent:
         self.state_size = env.observation_space.shape[0]
         self.action_size = env.action_space.n
         self.opt = tf.optimizers.Adam(LEARNING_RATE)
-        self.global_model = Actor_Critic(self.action_size)
+        self.global_model = ActorCritic(self.action_size)
         self.global_model(tf.convert_to_tensor(np.random.random((1, self.state_size)), dtype=tf.float32))
 
     def train(self):
@@ -80,7 +80,7 @@ class Worker(threading.Thread):
         self.update_freq = update_freq
         self.env_name = env_name
 
-        self.local_model = Actor_Critic(self.action_size)
+        self.local_model = ActorCritic(self.action_size)
         self.env = gym.make(self.env_name)
         self.ep_loss = .0
 

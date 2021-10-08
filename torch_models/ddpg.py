@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 import torch.nn.functional as F
-from networks.torch_nets import Actor, Critic_conc
+from networks.torch_nets import Actor, Critic
 from utils.abstracts import AbsModel
 from utils.utils import Buffer, torch_save_weights, torch_load_weights
 from settings import *
@@ -13,10 +13,10 @@ class DeepDeterministicPolicyGradient(AbsModel):
         self.action_dim = action_dim
         self.use_conv = use_conv
         self.model_actor = Actor(self.state_dim, self.action_dim)
-        self.model_critic = Critic_conc(self.state_dim, self.action_dim)
+        self.model_critic = Critic(self.state_dim, self.action_dim)
 
         self.model_t_actor = Actor(self.state_dim, self.action_dim)
-        self.model_t_critic = Critic_conc(self.state_dim, self.action_dim)
+        self.model_t_critic = Critic(self.state_dim, self.action_dim)
 
         self.opt_actor = torch.optim.Adam(self.model_actor.parameters(), LEARNING_RATE)
         self.opt_critic = torch.optim.Adam(self.model_critic.parameters(), LEARNING_RATE)

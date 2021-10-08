@@ -6,7 +6,7 @@ import numpy as np
 from queue import Queue
 import torch
 from torch import nn
-from networks.torch_nets import Actor_Critic
+from networks.torch_nets import ActorCritic
 from settings import LEARNING_RATE, SAVE_DIR, GAMMA
 from utils.utils import torch_save_weights, torch_load_weights
 
@@ -35,7 +35,7 @@ class MasterAgent():
     env = gym.make(self.env_name)
     self.state_size = env.observation_space.shape[0]
     self.action_size = env.action_space.n
-    self.global_model = Actor_Critic(self.state_size, self.action_size)  # global network
+    self.global_model = ActorCritic(self.state_size, self.action_size)  # global network
     self.opt = torch.optim.Adam(self.global_model.parameters(), lr=LEARNING_RATE)
 
   def train(self):
@@ -113,7 +113,7 @@ class Worker(threading.Thread):
     self.result_queue = result_queue
     self.global_model = global_model
     self.opt = opt
-    self.local_model = Actor_Critic(self.state_size, self.action_size)
+    self.local_model = ActorCritic(self.state_size, self.action_size)
     self.worker_idx = idx
     self.env_name = env_name
     self.env = gym.make(self.env_name).unwrapped
