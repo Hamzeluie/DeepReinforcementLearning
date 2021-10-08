@@ -1,0 +1,7 @@
+actor critic is a reinforcement learning algorithm base on cumulative reward.
+we use actor critic family models when states or actions are continuous.
+
+actor critic has 3 models:
+1-Q Actor-Critic:
+2-Advantage Actor_Critic:
+3-TD Actor_Critic:
